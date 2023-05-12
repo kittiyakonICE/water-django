@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+
+{% block main %}
+
+<div class="container w-50 mt-5">
+    <form action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.media }}
+        {{ form.as_p }}
+        <div class="form-group">
+            <label for="">ชื่อแหล่งน้ำ</label>
+             <input type="text" name="water_source_name" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="">ชื่อจัดหวัด</label>
+             <input type="text" name="province_name" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="">ขนาดพื้นที่</label>
+             <input type="text" name="area_size" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="">ลักษณะแหล่งน้ำ</label>
+             <input type="text" name="water_source_characteristics" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="">ข้อมูลแหล่งน้ำ</label>
+            <textarea name="water_source_information" class="form-control" id="" cols="30" rows="10"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="">รูปภาพเกี่ยวกับน้ำ</label>
+            <input type="file" class="form-control" name="image">
+        </div> 
+        <br>
+        <input type="submit" value="เพิ่ม" class="btn btn-success">
+    </form>
+</div>
+
+
+{% endblock %}

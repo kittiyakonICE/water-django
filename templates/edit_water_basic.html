@@ -1,0 +1,54 @@
+r{% extends "base.html" %}
+
+
+{% block main %}
+
+<div class="container w-50 mt-5">
+    <form action="/update_water_basic/{{edit_water_basic.id}}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.media }}
+        {{ form.as_p }}
+        <div class="form-group">
+            <label for="">ชื่อแหล่งน้ำ</label>
+             <input type="text" name="water_source_name" class="form-control" value="{{edit_water_basic.water_source_name}}">
+        </div>
+        <div class="form-group">
+            <label for="">ชื่อจัดหวัด</label>
+             <input type="text" name="province_name" class="form-control" value="{{edit_water_basic.province_name}}">
+        </div>
+        <div class="form-group">
+            <label for="">ขนาดพื้นที่</label>
+             <input type="text" name="area_size" class="form-control" value="{{edit_water_basic.area_size}}">
+        </div>
+        <div class="form-group">
+            <label for="">ลักษณะแหล่งน้ำ</label>
+             <input type="text" name="water_source_characteristics" class="form-control" value="{{edit_water_basic.water_source_characteristics}}">
+        </div>
+        <div class="form-group">
+            <label for="">ข้อมูลแหล่งน้ำ</label>
+            <textarea name="water_source_information" class="form-control" id="" cols="30" rows="10">
+                {{edit_water_basic.water_source_information}}
+            </textarea>
+        </div>
+        <div class="form-group">
+
+            <div class="mt-3">
+                <input class="form-control" type="text" name="image" value="{{ edit_water_basic.water_image}}">
+                <img src="/media/{{edit_water_basic.water_image}}"  height="300" width="500" alt="">
+            </div>
+    
+        <div class="mt-3">
+            <label for="">รูปภาพเกี่ยวกับน้ำ</label>
+            <input type="file" class="form-control" name="image" accept="image/png, image/jpg, image/jpeg">
+        </div>
+        <br>
+        <input type="submit" value="เพิ่ม" class="btn btn-success">
+    </form>
+</div>
+
+
+
+
+
+
+{% endblock %}

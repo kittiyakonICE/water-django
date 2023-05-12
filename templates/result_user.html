@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block main %}
+    <div class="container pt-2">
+
+
+        <div class="row"> 
+        <h1>จัดการข้อมูลผู้ใช้</h1> 
+            <a href="/predict" style="text-decoration:none;" class="mt-3">เพิ่มการวิเคราะห์คุณภาพน้ำ</a>
+        <br>
+            <table class="table table-hover table-bordered mt-2">
+                <thead>
+                <tr>  
+                <th style="color:Goldenrod;" scope="col">ID:</th>           
+                <th style="color:Goldenrod;" scope="col">ออกซิเจนละลาย (DO):</th>
+                <th style="color:Goldenrod;" scope="col">ค่าความสกปรกในรูปสารอินทรีย์หรือบีโอดี (BOD):</th>
+                <th style="color:Goldenrod;" scope="col">ปริมาณแบคทีเรียกลุ่มโคลิฟอร์มทั้งหมด (TCB): </th>
+                <th style="color:Goldenrod;" scope="col">ปริมาณแบคทีเรียกลุ่มฟีคอลโคลิฟอร์ม (FCB):</th>
+                <th style="color:Goldenrod;" scope="col">ปริมาณแอมโมเนีย ไนโตรเจน (NH3-N):</th>
+                <th style="color:Salmon;" scope="col">ระดับคุณภาพน้ำ</th>
+                <th style="color:Salmon;" scope="col">แก้ไข</th>
+                <th style="color:Salmon;" scope="col">ลบ</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                    {% comment %} for data in dataset โดยรับค่า dataset มาแสดงเป็น for loop  จาก method view_result views.py  {% endcomment %}
+                {% for data in page_obj %} 
+                    <tr align="center">  
+                    <td style="color:white;">{{ data.id }}</td>                
+                    <td style="color:white;">{{ data.do }}</td>
+                    <td style="color:white;">{{ data.bod }}</td>
+                    <td style="color:white;">{{ data.tcb }}</td>
+                    <td style="color:white;">{{ data.fcb }}</td>
+                    <td style="color:white;">{{ data.nh3n }}</td>
+                    <td style="color:white;">{{ data.classification}}</td>
+                    <td>
+                        <a href="/edit_predict/{{data.id}}" class="btn btn-warning">แก้ไข</a>
+                    </td>
+                    <td>
+                        <a href="/delete_predict/{{data.id}}" class="btn btn-danger" onclick="return confirm('ยันยันลบ');">ลบ</a>
+                    </td>
+                    </tr>
+                {% endfor %}
+
+                </tbody>
+            </table>
+            <div class="pagination">
+                <span class="step-links">
+                    {% if page_obj.has_previous %}
+                        <a href="?page=1" style="text-decoration:none;">&laquo; หน้าแรก</a>
+                        <a href="?page={{ page_obj.previous_page_number }}" style="text-decoration:none">ก่อนหน้า</a>
+                    {% endif %}
+            
+                    <span class="current">
+                        หน้า {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                    </span>
+            
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}" style="text-decoration:none">ถัดไป</a>
+                        <a href="?page={{ page_obj.paginator.num_pages }}" style="text-decoration:none">หน้าสุดท้าย&raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+    </div>
+{% endblock %}

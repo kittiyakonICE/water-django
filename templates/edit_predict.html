@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+
+{% block main %}
+
+<!DOCTYPE html>
+<head>
+    <title>Edit & Update Page</title>
+</head>
+<body>
+    <center>
+        <br>
+        <h1 style="color:#FFD700;">แก้ไขชุดข้อมูล</h1>
+        <hr>
+        <form method ="POST" action="/update_predict/{{edit_predict.id}}"> 
+            {% csrf_token %}
+        <table border="1">
+            <tr>
+                <td>ออกซิเจนละลาย(DO)</td>
+                <td><input type= "text" class="form-controlo" name = "do" value="{{edit_predict.do}}"> </td>
+            </tr>
+
+            <tr>
+                <td>ค่าความสกปรกในรูปสารอินทรีย์หรือบีโอดี (BOD)</td>
+                <td><input type="text" class="form-controlo"  name = "bod" value="{{edit_predict.bod}}" ></td>
+            </tr>
+
+            <tr>
+                <td>ปริมาณแบคทีเรียกลุ่มโคลิฟอร์มทั้งหมด (TCB)</td>
+                <td><input type="text"  class="form-controlo" name = "tcb" value="{{edit_predict.tcb}}"></td>
+            </tr> 
+
+            <tr>
+                <td>ปริมาณแบคทีเรียกลุ่มฟีคอลโคลิฟอร์ม (FCB)</td>
+                <td><input type="text" class="form-controlo" name = "fcb" value="{{edit_predict.fcb}}"></td>
+            </tr>
+
+            <tr>
+                <td>ปริมาณแอมโมเนีย ไนโตรเจน (NH3-N)</td>
+                <td><input type="text" class="form-controlo"  name = "nh3n" value="{{edit_predict.nh3n}}"></td>
+
+            </tr>
+
+        </table>
+        <input type="submit" value = "Update">
+    </form>   
+    </center>
+</body>
+</html>
+
+
+
+{% endblock %}

@@ -1,0 +1,153 @@
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-info bg-dark">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+        
+
+              <li class="nav-item"> 
+                <a class="nav-link text-white" href="/">หน้าแรก</a>
+              </li>
+              <li class="nav-item"> 
+                <a class="nav-link text-white" href="/prediction_page">การวิเคราะห์คุณภาพน้ำ</a>
+              </li>
+              
+
+          </ul>
+   
+        </div>
+
+        <div>
+          {% if user.is_authenticated %}
+             {{user.username}}
+              &nbsp;&nbsp;&nbsp;&nbsp;<a href="/logout" class="btn btn-danger" style="margin-right:60px;">ออกจากระบบ</a>
+          {% else %}
+                <a class="btn btn-success" href="/login" style="margin-right:60px;">เข้าสู่ระบบ</a>
+          {% endif %}
+        </div>
+        
+        <div class="row">
+          <form>
+            <div class="input-group">
+                <input name="q" type="text" placeholder="ค้นหาชื่อแหล่งน้ำ" class="form-control" />
+                <div style="margin-left:30px;">
+                    <button class="btn btn-info">ค้นหา</button>
+                </div>
+            </div>
+        </form>
+        </div>
+      </nav>
+    
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">ผลการวิเคราะห์คุณภาพน้ำ</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h5>ผลลัพธ์:</h5>
+                <div>ออกซิเจนละลาย (DO): <span id="sl"></span></div>
+                <div>ค่าความสกปรกในรูปสารอินทรีย์หรือบีโอดี (BOD): <span id="sw"></span></div>
+                <div>ปริมาณแบคทีเรียกลุ่มโคลิฟอร์มทั้งหมด (TCB): <span id="pl"></span></div>
+                <div>ปริมาณแบคทีเรียกลุ่มฟีคอลโคลิฟอร์ม (FCB): <span id="pw"></span></div>
+                <div>ปริมาณแอมโมเนีย ไนโตรเจน (NH3-N): <span id="p"></span></div>
+
+                <h5 class="pt-3">ผลการวิเคราะห์ระดับคุณภาพน้ำ:</h5>
+                <div id="prediction"></div>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container pt-5">
+    <div class="row justify-content-md-center">
+        <div class="col-md-5">
+            <h1>วิเคราะห์คุณภาพน้ำ</h1>
+            <form action="" id="post-form">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="do">ออกซิเจนละลาย (DO)</label>
+                    <input type="text" step="0.1" class="form-control" id="do" placeholder="" required>
+                </div>
+                <div class="form-group">
+                    <label for="bod">ค่าความสกปรกในรูปสารอินทรีย์หรือบีโอดี (BOD)</label>
+                    <input type="text"step="0.1"  class="form-control" id="bod" placeholder="" required>
+                </div>
+                <div class="form-group">
+                    <label for="tcb">ปริมาณแบคทีเรียกลุ่มโคลิฟอร์มทั้งหมด (TCB)</label>
+                    <input type="text"step="0.1"  class="form-control" id="tcb" placeholder="" required>
+                </div>
+                <div class="form-group">
+                    <label for="fcb">ปริมาณแบคทีเรียกลุ่มฟีคอลโคลิฟอร์ม (FCB)</label>
+                    <input type="text" step="0.1" class="form-control" id="fcb" placeholder="" required>
+                </div>
+                <div class="form-group">
+                    <label for="nh3">ปริมาณแอมโมเนีย ไนโตรเจน (NH3-N)</label>
+                    <input type="text"step="0.1"  class="form-control" id="nh3n" placeholder="" required>
+                </div>
+                <button type="submit" value="Submit" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).on('submit', '#post-form',function(e){
+        e.preventDefault();
+        $.ajax({
+            type:'POST',
+            url:'{% url "predict:submit_prediction" %}',
+            data:{
+                do:$('#do').val(),
+                bod:$('#bod').val(),
+                tcb:$('#tcb').val(),
+                fcb:$('#fcb').val(),
+                nh3n:$('#nh3n').val(),
+                csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+                action: 'post'
+            },
+            success:function(json) {
+                document.forms["post-form"].reset();
+                document.getElementById("prediction").innerHTML = json['result']
+                document.getElementById("sl").innerHTML = json['do']
+                document.getElementById("sw").innerHTML = json['bod']
+                document.getElementById("pl").innerHTML = json['fcb']
+                document.getElementById("pw").innerHTML = json['tcb']
+                document.getElementById("p").innerHTML = json['nh3n']
+            },
+            error : function(xhr,errmsg,err) {
+
+            }
+        });
+    })
+</script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+</body>
+</html>
+

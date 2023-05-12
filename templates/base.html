@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+    <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+<!-- CSS only -->
+
+
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Mali:wght@200;300;500;600&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+<!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+   
+    
+    <title>Water prediction</title>
+
+    <style>
+      *{
+        font-family: 'Mali', cursive;
+        
+      }
+      body {
+        background-color: #2E4053;
+        background-size: 900%;
+        color: white;
+      }
+
+   
+    </style>
+
+
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-info bg-dark">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+          
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav mr-auto">
+            
+             
+                {% if user.is_authenticated %}
+
+                <li class="nav-item active"> 
+                  <a class="nav-link text-white" href="/"><span class="sr-only">หน้าแรก</span></a> 
+                </li>
+                <li class="nav-item"> 
+                  <a class="nav-link text-white" href="/test">ประเมินประสิทธิภาพ</a>
+                  </li>
+                    <li class="nav-item"> 
+                          <a class="nav-link text-white" href="/results">จัดการคุณภาพน้ำ</a>
+                    </li>
+                    <li class="nav-item"> 
+                      <a class="nav-link text-white" href="/manage_water_basic">จัดการพื้นฐานข้อมูลน้ำ</a>
+                    </li>
+                    
+                                        
+                {% else %}
+                <li class="nav-item active"> 
+                  <a class="nav-link text-white" href="/"><span class="sr-only">หน้าแรก</span></a> 
+                </li>
+                  <li class="nav-item"> 
+                    <a class="nav-link text-white" href="/prediction_page">การวิเคราะห์คุณภาพน้ำ</a>
+                  </li>
+                {% endif %} 
+              </ul>
+       
+            </div>
+
+            <div>
+              {% if user.is_authenticated %}
+                 {{user.first_name}}
+                 {{user.last_name}}
+                  &nbsp;&nbsp;&nbsp;&nbsp;<a href="/logout" class="btn btn-danger" style="margin-right:60px;">ออกจากระบบ</a>
+              {% else %}
+                    <a class="btn btn-success" href="/login" style="margin-right:60px;">เข้าสู่ระบบ</a>
+              {% endif %}
+            </div>
+            
+            <div class="row">
+              <form>
+                <div class="input-group">
+                    <input name="q" type="text" placeholder="ค้นหาชื่อแหล่งน้ำ" class="form-control" />
+                    <div style="margin-left:30px;">
+                        <button class="btn btn-info">ค้นหา</button>
+                    </div>
+                </div>
+            </form>
+            </div>
+          </nav>
+
+          <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+          <script type="text/javascript" src="js/bootstrap.js"></script>
+
+       
+    {% block main %}
+
+    {% endblock %}
+
+    </body>
+</html>

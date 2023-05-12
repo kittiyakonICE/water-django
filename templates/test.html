@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+
+{% block main %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    td {
+      max-width: 150px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+  <div class="container mt-5">
+    <table>
+      <thead>
+        <tr>
+          <th style="color:Goldenrod;" scope="col">Fold</th>           
+          <th style="color:Goldenrod;" scope="col">Accuracy</th>           
+        </tr>
+      </thead>
+      <tbody>
+        {% for acc in fold %}
+          <tr>
+            <td style="color:white;">{{ forloop.counter }}</td>
+            <td style="color:white;">{{ acc }}%</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    ค่าความถูกต้องเฉลี่ย: {{ data }} %
+</div>
+</body>
+</html>
+
+
+{% endblock %}
+

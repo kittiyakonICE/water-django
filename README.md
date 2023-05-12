@@ -1,1 +1,1 @@
-# water-django
+# YT-DjangoProject-Water-App

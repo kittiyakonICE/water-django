@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+
+{% block main %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    td {
+      max-width: 150px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+  <div class="container mt-5">
+      <a href="/add_water_basic" class="btn btn-success">เพิ่มข้อมูลพื้นฐานน้ำ</a>
+    <table class="table table-hover table-bordered mt-3">
+      <br>
+        <thead>
+          <tr>
+            <th style="color:Goldenrod;" scope="col">รหัสข้อมูลแหล่งน้ำ</th>           
+            <th style="color:Goldenrod;" scope="col">ชื่อแหล่งน้ำ</th>           
+            <th style="color:Goldenrod;" scope="col">ชื่อจังหวัด</th>
+            <th style="color:Goldenrod;" scope="col">ขนาดพื้นที่</th>
+            <th style="color:Goldenrod;" scope="col">ลักษณะแหล่งน้ำ</th>
+            <th style="color:Goldenrod;" scope="col">ข้อมูลแหล่งน้ำ</th>
+            <th style="color:Goldenrod;" scope="col">รูปภาพเกี่ยวกับน้ำ </th>
+            <th style="color:Salmon;">แก้ไข</th>
+            <th style="color:Salmon;">ลบ</th>
+            
+
+          </tr>
+        </thead>
+        <tbody>
+        {% for row in  data %}
+          <tr>
+            <td style="color:white;">{{row.id}}</td>
+            <td style="color:white;">{{row.water_source_name}}</td>
+            <td style="color:white;">{{row.province_name}}</td>
+            <td style="color:white;">{{row.area_size}}</td>
+            <td style="color:white;">{{row.water_source_characteristics}}</td>
+            <td style="color:white; width: 8rem;">{{row.water_source_information}}</td>
+            <td>
+              <img src="/media/{{row.picture_water}}" alt="" width="200" height="100">
+            </td>
+
+            <td>
+              <a href="/edit_water_basic/{{row.id}}" class="btn btn-warning">แก้ไข</a>
+            </td>
+            <td>
+              <a href="/delete/{{row.id}}" class="btn btn-danger" onclick=" return confirm('ต้องการลบหรือไม่?')">ลบ</a>
+            </td>
+          {% endfor %}
+          </tr>
+
+        </tbody>
+      </table>
+</div>
+</body>
+</html>
+
+
+{% endblock %}
+

@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block main %}
+    <div class="container pt-2">
+        <form action="predict_page.html" method="POST" enctype="multipart/form-data">
+        <form action="prediction_page.html" method="POST" enctype="multipart/form-data">
+        <h4 class = "alert-heading">ผลการจำแนก คือ {{result}}</h4>
+        <h4 class = "alert-heading">distance {{dis}} </h4>
+    </div>
+{% endblock %}
